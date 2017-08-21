@@ -1,5 +1,5 @@
-##BinaryNet.tf
-*Training Deep Neural Networks with Weights and Activations Constrained to +1 or -1 -> implementation in tensorflow 
+## BinaryNet.tf
+Training Deep Neural Networks with Weights and Activations Constrained to +1 or -1 -> implementation in tensorflow 
 This is incomplete training example for BinaryNets using Binary-Backpropagation algorithm as explained in 
 "Binarized Neural Networks: Training Deep Neural Networks with Weights and Activations Constrained to +1 or -1, 
 on following datasets: Cifar10/100, MNIST.
@@ -10,21 +10,21 @@ Finally "sparse_softmax_cross_entropy_with_logits" loss is used instead if the S
 The implementation is based on https://github.com/eladhoffer/convNet.tf but the main idea can be easily transferred to any tensorflow wrapper
 (e.g., slim,keras)
 
-##Data
+## Data
 This implementation supports cifar10/cifar100 and mnist (without preprocessing) 
 
-##Dependencies
+## Dependencies
 tensorflow version 1.2.1
 
-##Training
+## Training
 
-*Train cifar10 model using gpu:
-python main.py --model BNN_vgg_cifar10 --save BNN_cifar10 --dataset cifar10 --gpu True
-*Train cifar10 model using cpu:
-python main.py --model BNN_vgg_cifar10 --save BNN_cifar10 --dataset cifar10
+* Train cifar10 model using gpu:
+ python main.py --model BNN_vgg_cifar10 --save BNN_cifar10 --dataset cifar10 --gpu True
+* Train cifar10 model using cpu:
+ python main.py --model BNN_vgg_cifar10 --save BNN_cifar10 --dataset cifar10
 
 
-#Results
+## Results
 Cifar10 should reach at least 88% top-1 accuracy
 
 
