@@ -1,5 +1,6 @@
 ## BinaryNet.tf
-Training Deep Neural Networks with Weights and Activations Constrained to +1 or -1 -> implementation in tensorflow 
+Training Deep Neural Networks with Weights and Activations Constrained to +1 or -1.  implementation in tensorflow (https://papers.nips.cc/paper/6573-binarized-neural-networks)
+
 This is incomplete training example for BinaryNets using Binary-Backpropagation algorithm as explained in 
 "Binarized Neural Networks: Training Deep Neural Networks with Weights and Activations Constrained to +1 or -1, 
 on following datasets: Cifar10/100, MNIST.
