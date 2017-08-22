@@ -9,7 +9,7 @@ Note that in this folder I didn’t implemented (yet...) shift-base BN , shift-b
 Likewise, I use deterministic binarization and I don't apply the initialization coefficients from GLorot&Bengio 2010.
 Finally "sparse_softmax_cross_entropy_with_logits" loss is used instead if the SquareHingeLoss. 
 
-The implementation is based on https://github.com/eladhoffer/convNet.tf but the main idea can be easily transferred to any tensorflow wrapper
+The implementation is based on https://github.com/eladhoffer/convNet.tf but the main idea can be easily transferred to any tensorflow wrapper. I'll probably change it to keras soon. 
 (e.g., slim,keras)
 
 ## Data
