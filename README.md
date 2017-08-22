@@ -3,7 +3,7 @@ Training Deep Neural Networks with Weights and Activations Constrained to +1 or 
 
 This is incomplete training example for BinaryNets using Binary-Backpropagation algorithm as explained in 
 "Binarized Neural Networks: Training Deep Neural Networks with Weights and Activations Constrained to +1 or -1, 
-on following datasets: Cifar10/100, MNIST.
+on following datasets: Cifar10/100.
 
 Note that in this folder I didn’t implemented (yet...) shift-base BN , shift-base AdaMax (instead I just use the vanilla BN and Adam).
 Likewise, I use deterministic binarization and I don't apply the initialization coefficients from GLorot&Bengio 2010.
@@ -13,7 +13,7 @@ The implementation is based on https://github.com/eladhoffer/convNet.tf but the 
 (e.g., slim,keras)
 
 ## Data
-This implementation supports cifar10/cifar100 and mnist (without preprocessing) 
+This implementation supports cifar10/cifar100  
 
 ## Dependencies
 tensorflow version 1.2.1
