@@ -149,7 +149,7 @@ class DataProvider:
 
 
 
-def preprocess_evaluation(img, height=None, width=None, normalize=None):
+def preprocess_evaluation(img, height=None, width=None, normalize=False):
     img_size = img.get_shape().as_list()
     height = height or img_size[0]
     width = width or img_size[1]
@@ -157,9 +157,11 @@ def preprocess_evaluation(img, height=None, width=None, normalize=None):
     if normalize:
          # Subtract off the mean and divide by the variance of the pixels.
         preproc_image = tf.image.per_image_whitening(preproc_image)
+    else:
+        distorted_image=tf.image.per_image_standardization(preproc_image)
     return preproc_image
 
-def preprocess_training(img, height=None, width=None, normalize=None):
+def preprocess_training(img, height=None, width=None, normalize=False):
     img_size = img.get_shape().as_list()
     height = height or img_size[0]
     width = width or img_size[1]
@@ -168,8 +170,8 @@ def preprocess_training(img, height=None, width=None, normalize=None):
     # distortions applied to the image.
 
     # Randomly crop a [height, width] section of the image.
-    distorted_image = tf.random_crop(img, [height, width, 3])
-
+    distorted_image = tf.random_crop(img, [height-3, width-3, 3])
+    distorted_image = tf.image.resize_image_with_crop_or_pad(distorted_image, height, width)
     # Randomly flip the image horizontally.
     distorted_image = tf.image.random_flip_left_right(distorted_image)
 
@@ -182,6 +184,8 @@ def preprocess_training(img, height=None, width=None, normalize=None):
     if normalize:
         # Subtract off the mean and divide by the variance of the pixels.
         distorted_image = tf.image.per_image_whitening(distorted_image)
+    else:
+        distorted_image=tf.image.per_image_standardization(distorted_image)
     return distorted_image
 
 def group_batch_images(x):
@@ -205,7 +209,7 @@ def get_data_provider(name, training=True):
         data_dir = os.path.join(path, 'cifar-10-batches-bin/')
         if training:
             return DataProvider(__read_cifar([os.path.join(data_dir, 'data_batch_%d.bin' % i)
-                                    for i in xrange(1, 6)]), [50000, 32,32,3], True)
+                                    for i in range(1, 6)]), [50000, 32,32,3], True)
         else:
             return DataProvider(__read_cifar([os.path.join(data_dir, 'test_batch.bin')]),
                                 [10000, 32,32, 3], False)

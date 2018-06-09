@@ -14,11 +14,11 @@ MOVING_AVERAGE_DECAY = 0.997
 FLAGS = tf.app.flags.FLAGS
 
 # Basic model parameters.
-tf.app.flags.DEFINE_integer('batch_size', 128,
+tf.app.flags.DEFINE_integer('batch_size', 256,
                             """Number of images to process in a batch.""")
 tf.app.flags.DEFINE_integer('num_epochs', -1,
                             """Number of epochs to train. -1 for unlimited""")
-tf.app.flags.DEFINE_integer('learning_rate', 1e-2,
+tf.app.flags.DEFINE_float('learning_rate', 1e-2,
                             """Initial learning rate used.""")
 tf.app.flags.DEFINE_string('model', 'model',
                            """Name of loaded model.""")
@@ -28,18 +28,23 @@ tf.app.flags.DEFINE_string('load', None,
                            """Name of loaded dir.""")
 tf.app.flags.DEFINE_string('dataset', 'cifar10',
                            """Name of dataset used.""")
-tf.app.flags.DEFINE_string('gpu', False,
+tf.app.flags.DEFINE_string('checkpoint_dir', './results/',
+                           """results folder.""")
+tf.app.flags.DEFINE_string('log_dir', './results',
+                           """log folder.""")
+tf.app.flags.DEFINE_bool('gpu', False,
                            """use gpu.""")
-tf.app.flags.DEFINE_string('device', 0,
+tf.app.flags.DEFINE_integer('device', 0,
                            """which gpu to use.""")
-tf.app.flags.DEFINE_string('summary', True,
+tf.app.flags.DEFINE_bool('summary', True,
                            """Record summary.""")
 tf.app.flags.DEFINE_string('log', 'ERROR',
                            'The threshold for what messages will be logged '
                             """DEBUG, INFO, WARN, ERROR, or FATAL.""")
 
-FLAGS.checkpoint_dir = './results/' + FLAGS.save
-FLAGS.log_dir = FLAGS.checkpoint_dir + '/log/'
+
+FLAGS.checkpoint_dir +=FLAGS.save
+FLAGS.log_dir += '/log/'
 # tf.logging.set_verbosity(FLAGS.log)
 
 def count_params(var_list):
@@ -78,8 +83,8 @@ def _learning_rate_decay_fn(learning_rate, global_step):
   return tf.train.exponential_decay(
       learning_rate,
       global_step,
-      decay_steps=1000,
-      decay_rate=0.9,
+      decay_steps=10000,
+      decay_rate=0.5,
       staircase=True)
 
 learning_rate_decay_fn = _learning_rate_decay_fn
@@ -220,7 +225,8 @@ def main(argv=None):  # pylint: disable=unused-argument
         model_file = os.path.join('models', FLAGS.model + '.py')
         assert gfile.Exists(model_file), 'no model file named: ' + model_file
         gfile.Copy(model_file, FLAGS.checkpoint_dir + '/model.py')
-    m = importlib.import_module('.' + FLAGS.model, 'models')
+
+    m = importlib.import_module('.' +FLAGS.model, 'models')
     data = get_data_provider(FLAGS.dataset, training=True)
 
     train(m.model, data,
